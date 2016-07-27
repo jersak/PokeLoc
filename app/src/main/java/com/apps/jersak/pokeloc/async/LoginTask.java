@@ -6,8 +6,8 @@ import android.os.StrictMode;
 import com.apps.jersak.pokeloc.manager.PokeManager;
 import com.apps.jersak.pokeloc.models.LoginData;
 import com.pokegoapi.api.PokemonGo;
-import com.pokegoapi.auth.PtcLogin;
-import POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass;
+import com.pokegoapi.auth.PtcCredentialProvider;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -38,9 +38,8 @@ public class LoginTask extends AsyncTask<LoginData, Void, PokemonGo> {
             StrictMode.setThreadPolicy(policy);
 
             OkHttpClient httpClient = new OkHttpClient();
-            PtcLogin ptcLogin = new PtcLogin(httpClient);
-            RequestEnvelopeOuterClass.RequestEnvelope.AuthInfo auth = ptcLogin.login(loginData.getUser(), loginData.getSenha());
-            return new PokemonGo(auth, httpClient);
+            PtcCredentialProvider provider = new PtcCredentialProvider(httpClient, loginData.getUser(), loginData.getSenha());
+            return new PokemonGo(provider, httpClient);
         } catch (Exception e) {
             e.printStackTrace();
         }
