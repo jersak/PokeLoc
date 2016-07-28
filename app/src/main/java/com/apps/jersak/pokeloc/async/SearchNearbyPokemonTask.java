@@ -8,7 +8,6 @@ import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.Map;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
