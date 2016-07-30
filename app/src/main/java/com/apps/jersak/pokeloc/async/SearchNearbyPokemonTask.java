@@ -4,50 +4,50 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.apps.jersak.pokeloc.manager.PokeManager;
+import com.apps.jersak.pokeloc.models.PokemonBean;
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.Map;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Fuzi on 27/07/2016.
  */
-public class SearchNearbyPokemonTask extends AsyncTask<Void, Void, List<CatchablePokemon>> {
+public class SearchNearbyPokemonTask extends AsyncTask<Void, Void, List<PokemonBean>> {
 
     public interface SearchNearbyCallback {
-        void onSearchCompleted(List<CatchablePokemon> pokemons);
+        void onSearchCompleted(List<PokemonBean> pokemons);
     }
 
     SearchNearbyCallback callback;
 
-    public SearchNearbyPokemonTask(SearchNearbyCallback callback){
+    public SearchNearbyPokemonTask(SearchNearbyCallback callback) {
         this.callback = callback;
     }
 
 
     @Override
-    protected List<CatchablePokemon> doInBackground(Void... voids) {
+    protected List<PokemonBean> doInBackground(Void... voids) {
 
         try {
             PokemonGo go = PokeManager.getInstance().getPokemonGo();
 
-            //System.out.println(go.getPlayerProfile());
-
-            go.setLocation(34.008887136904356,-118.4983366727829, 0);
+            go.setLocation(34.008887136904356, -118.4983366727829, 0);
 
             Map map = new Map(go);
 
             List<CatchablePokemon> nearbyPokemon = map.getCatchablePokemon();
 
+            List<PokemonBean> pokemonBeanList = new ArrayList<>();
+
             for (CatchablePokemon temp : nearbyPokemon) {
-                Log.e(SearchNearbyPokemonTask.class.getSimpleName(), "Pokemon próximo: " + temp.getPokemonId());
-                Log.e(SearchNearbyPokemonTask.class.getSimpleName(), "Posição: " + temp.getLatitude() + " : " + temp.getLongitude());
-                Log.e(SearchNearbyPokemonTask.class.getSimpleName(), "Disponível por: " + ((temp.getExpirationTimestampMs() - System.currentTimeMillis()) / 1000) + " segundos");
-                Log.e(SearchNearbyPokemonTask.class.getSimpleName(), "");
+                PokemonBean pokemonBean = new PokemonBean(temp.getPokemonId().name(), temp.getExpirationTimestampMs(), temp.getLatitude(), temp.getLongitude());
+                pokemonBeanList.add(pokemonBean);
             }
 
-            return nearbyPokemon;
+            return pokemonBeanList;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,10 +57,10 @@ public class SearchNearbyPokemonTask extends AsyncTask<Void, Void, List<Catchabl
     }
 
     @Override
-    protected void onPostExecute(List<CatchablePokemon> catchablePokemons) {
+    protected void onPostExecute(List<PokemonBean> catchablePokemons) {
         super.onPostExecute(catchablePokemons);
 
-        if(callback != null){
+        if (callback != null) {
             callback.onSearchCompleted(catchablePokemons);
         }
     }

@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import com.apps.jersak.pokeloc.async.SearchNearbyPokemonTask;
 import com.apps.jersak.pokeloc.manager.PokeManager;
+import com.apps.jersak.pokeloc.models.PokemonBean;
 import com.apps.jersak.pokeloc.utils.Constants;
+import com.apps.jersak.pokeloc.utils.DataManager;
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;
 
@@ -43,23 +45,18 @@ public class MainService extends Service {
             @Override
             public void run() {
 
-                Log.e(MainService.class.getSimpleName(), "run()");
-
                 PokemonGo go = PokeManager.getInstance().getPokemonGo();
 
                 if (go == null){
-                    Log.e(MainService.class.getSimpleName(),"User not logged into PTC account");
                     executeSearch();
                     return;
                 }
 
                 new SearchNearbyPokemonTask(new SearchNearbyPokemonTask.SearchNearbyCallback() {
                     @Override
-                    public void onSearchCompleted(List<CatchablePokemon> pokemons) {
+                    public void onSearchCompleted(List<PokemonBean> pokemons) {
 
-                        Log.e(MainService.class.getSimpleName(), "onSearchCompleted()");
-
-                        PokeManager.getInstance().setNearbyPokemon(pokemons);
+                        DataManager.storePokemon(getApplicationContext(),pokemons);
                         sendBroadcast(new Intent(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));
 
                         executeSearch();

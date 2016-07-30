@@ -14,8 +14,10 @@ import com.apps.jersak.pokeloc.async.LoginTask;
 import com.apps.jersak.pokeloc.async.SearchNearbyPokemonTask;
 import com.apps.jersak.pokeloc.manager.PokeManager;
 import com.apps.jersak.pokeloc.models.LoginData;
+import com.apps.jersak.pokeloc.models.PokemonBean;
 import com.apps.jersak.pokeloc.services.MainService;
 import com.apps.jersak.pokeloc.utils.Constants;
+import com.apps.jersak.pokeloc.utils.DataManager;
 import com.apps.jersak.pokeloc.utils.ImageManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -65,11 +67,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng location = new LatLng(34.008887136904356,-118.4983366727829);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
+
+        populateMap();
     }
 
     public void populateMap() {
 
-        List<CatchablePokemon> pokemons = PokeManager.getInstance().getNearbyPokemon();
+        List<PokemonBean> pokemons = DataManager.retrievePokemon(this);
 
         if (pokemons == null || mMap == null){
             Log.e(MapsActivity.class.getSimpleName(),"Pokemons or map null");
@@ -80,15 +84,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             m.remove();
         }
 
-        for (CatchablePokemon pokemon : pokemons) {
+        for (PokemonBean pokemon : pokemons) {
             LatLng currentPokemon = new LatLng(pokemon.getLatitude(), pokemon.getLongitude());
-            String name = pokemon.getPokemonId().name();
-            String time = ((pokemon.getExpirationTimestampMs() - System.currentTimeMillis()) / 1000) + "s";
+            String name = pokemon.getId();
+            String time = ((pokemon.getTime() - System.currentTimeMillis()) / 1000) + "s";
             String title = String.format("%s\n%s", name, time);
             MarkerOptions options = new MarkerOptions()
                     .position(currentPokemon)
                     .title(time)
-                    .icon(BitmapDescriptorFactory.fromResource(ImageManager.getImage(name)));
+                    .icon(pokemon.getImage());
             Marker marker = mMap.addMarker(options);
             marker.showInfoWindow();
             mPokemonMarkers.add(marker);
