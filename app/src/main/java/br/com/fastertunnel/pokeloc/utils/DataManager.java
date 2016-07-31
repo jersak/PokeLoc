@@ -1,9 +1,9 @@
-package com.apps.jersak.pokeloc.utils;
+package br.com.fastertunnel.pokeloc.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.apps.jersak.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.pokeloc.models.PokemonBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

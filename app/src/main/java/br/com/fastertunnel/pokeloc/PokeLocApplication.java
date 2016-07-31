@@ -1,4 +1,4 @@
-package com.apps.jersak.pokeloc;
+package br.com.fastertunnel.pokeloc;
 
 import android.app.Application;
 import android.support.multidex.MultiDex;

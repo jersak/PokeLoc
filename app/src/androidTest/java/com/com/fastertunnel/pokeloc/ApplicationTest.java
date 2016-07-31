@@ -1,4 +1,4 @@
-package com.apps.jersak.pokeloc;
+package com.com.fastertunnel.pokeloc;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -7,7 +7,7 @@
     https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=D6:10:7D:F8:5B:07:ED:4F:0A:09:7F:61:7B:70:1A:17:E8:BD:89:AD%3Bcom.apps.jersak.pokeloc
 
     You can also add your credentials to an existing key, using this line:
-    D6:10:7D:F8:5B:07:ED:4F:0A:09:7F:61:7B:70:1A:17:E8:BD:89:AD;com.apps.jersak.pokeloc
+    D6:10:7D:F8:5B:07:ED:4F:0A:09:7F:61:7B:70:1A:17:E8:BD:89:AD;fastertunneltunnel.pokeloc
 
     Alternatively, follow the directions here:
     https://developers.google.com/maps/documentation/android/start#get-key

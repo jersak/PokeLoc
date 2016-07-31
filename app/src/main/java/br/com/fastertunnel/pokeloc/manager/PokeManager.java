@@ -1,4 +1,4 @@
-package com.apps.jersak.pokeloc.manager;
+package br.com.fastertunnel.pokeloc.manager;
 
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;

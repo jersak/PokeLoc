@@ -1,4 +1,4 @@
-package com.apps.jersak.pokeloc;
+package br.com.fastertunnel.pokeloc;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -16,25 +15,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.apps.jersak.pokeloc.async.LoginTask;
-import com.apps.jersak.pokeloc.async.SearchNearbyPokemonTask;
-import com.apps.jersak.pokeloc.manager.PokeManager;
-import com.apps.jersak.pokeloc.models.LoginData;
-import com.apps.jersak.pokeloc.models.PokemonBean;
-import com.apps.jersak.pokeloc.services.MainService;
-import com.apps.jersak.pokeloc.utils.Constants;
-import com.apps.jersak.pokeloc.utils.DataManager;
-import com.apps.jersak.pokeloc.utils.ImageManager;
+import br.com.fastertunnel.pokeloc.R;
+
+import br.com.fastertunnel.pokeloc.async.LoginTask;
+import br.com.fastertunnel.pokeloc.models.LoginData;
+import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.pokeloc.services.MainService;
+import br.com.fastertunnel.pokeloc.utils.Constants;
+import br.com.fastertunnel.pokeloc.utils.DataManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pokegoapi.api.map.pokemon.CatchablePokemon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         populateMap();
 
-        new LoginTask(this).execute(new LoginData("jersak", "50825x"));
+        new LoginTask(this).execute(new LoginData("fastertunnel", "50825x"));
 
         checkGpsPermission();
 

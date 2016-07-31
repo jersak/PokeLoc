@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "com.apps.jersak.pokeloc"
+        applicationId "br.com.fastertunnel.pokeloc"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
@@ -17,6 +17,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
     }
 }
 

@@ -1,4 +1,4 @@
-package com.apps.jersak.pokeloc.services;
+package br.com.fastertunnel.pokeloc.services;
 
 
 import android.Manifest;
@@ -15,15 +15,13 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.apps.jersak.pokeloc.async.SearchNearbyPokemonTask;
-import com.apps.jersak.pokeloc.manager.PokeManager;
-import com.apps.jersak.pokeloc.models.PokemonBean;
-import com.apps.jersak.pokeloc.utils.Constants;
-import com.apps.jersak.pokeloc.utils.DataManager;
+import br.com.fastertunnel.pokeloc.async.SearchNearbyPokemonTask;
+import br.com.fastertunnel.pokeloc.manager.PokeManager;
+import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.pokeloc.utils.Constants;
+import br.com.fastertunnel.pokeloc.utils.DataManager;
 import com.pokegoapi.api.PokemonGo;
-import com.pokegoapi.api.map.pokemon.CatchablePokemon;
 
 import java.util.List;
 

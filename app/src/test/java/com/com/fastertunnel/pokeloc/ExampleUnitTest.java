@@ -1,4 +1,4 @@
-package com.apps.jersak.pokeloc;
+package com.com.fastertunnel.pokeloc;
 
 import org.junit.Test;
 

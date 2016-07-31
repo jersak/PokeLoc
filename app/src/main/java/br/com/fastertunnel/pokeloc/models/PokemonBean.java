@@ -1,6 +1,6 @@
-package com.apps.jersak.pokeloc.models;
+package br.com.fastertunnel.pokeloc.models;
 
-import com.apps.jersak.pokeloc.utils.ImageManager;
+import br.com.fastertunnel.pokeloc.utils.ImageManager;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.gson.annotations.SerializedName;

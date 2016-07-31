@@ -1,12 +1,10 @@
-package com.apps.jersak.pokeloc.async;
+package br.com.fastertunnel.pokeloc.async;
 
 import android.location.Location;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.apps.jersak.pokeloc.manager.PokeManager;
-import com.apps.jersak.pokeloc.models.PokemonBean;
-import com.google.android.gms.maps.model.LatLng;
+import br.com.fastertunnel.pokeloc.manager.PokeManager;
+import br.com.fastertunnel.pokeloc.models.PokemonBean;
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.Map;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;

@@ -1,10 +1,10 @@
-package com.apps.jersak.pokeloc.async;
+package br.com.fastertunnel.pokeloc.async;
 
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
-import com.apps.jersak.pokeloc.manager.PokeManager;
-import com.apps.jersak.pokeloc.models.LoginData;
+import br.com.fastertunnel.pokeloc.manager.PokeManager;
+import br.com.fastertunnel.pokeloc.models.LoginData;
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.auth.PtcCredentialProvider;
 

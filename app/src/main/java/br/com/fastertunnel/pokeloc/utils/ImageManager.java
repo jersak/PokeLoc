@@ -1,8 +1,6 @@
-package com.apps.jersak.pokeloc.utils;
+package br.com.fastertunnel.pokeloc.utils;
 
-import com.apps.jersak.pokeloc.R;
-
-import java.util.HashMap;
+import br.com.fastertunnel.pokeloc.R;
 
 /**
  * Created by Fuzi on 27/07/2016.

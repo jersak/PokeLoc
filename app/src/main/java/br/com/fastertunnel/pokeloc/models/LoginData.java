@@ -1,4 +1,4 @@
-package com.apps.jersak.pokeloc.models;
+package br.com.fastertunnel.pokeloc.models;
 
 /**
  * Created by Fuzi on 26/07/2016.
