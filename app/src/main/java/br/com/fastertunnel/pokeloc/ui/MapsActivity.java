@@ -61,6 +61,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLoginButton = findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(onLoginButtonClicked);
 
+        findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapsActivity.this, SettingsActivity.class));
+            }
+        });
+
         mPokemonMarkers = new ArrayList<>();
 
         registerReceiver(onNearbyUpdatedReceiver, new IntentFilter(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));

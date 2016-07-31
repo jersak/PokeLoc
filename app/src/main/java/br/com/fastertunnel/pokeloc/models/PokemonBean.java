@@ -1,5 +1,6 @@
 package br.com.fastertunnel.pokeloc.models;
 
+import br.com.fastertunnel.pokeloc.R;
 import br.com.fastertunnel.pokeloc.utils.ImageManager;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -22,11 +23,19 @@ public class PokemonBean {
     @SerializedName("longitude")
     private double longitude;
 
+    @SerializedName("name")
+    private String name;
+
     public PokemonBean(String id, Long time, double latitude, double longitude) {
         this.id = id;
         this.time = time;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public PokemonBean(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public String getId() {
@@ -65,4 +74,7 @@ public class PokemonBean {
         return BitmapDescriptorFactory.fromResource(ImageManager.getImage(getId()));
     }
 
+    public String getName() {
+        return name;
+    }
 }

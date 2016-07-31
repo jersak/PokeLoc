@@ -10,4 +10,9 @@
     <string name="login_loading">Carregando&#8230;</string>
     <string name="login_failed_try_again">Falhs de login, tente novamente.</string>
     <string name="cancel">Cancelar</string>
+    <string name="pokemon_found">Pokemon encontrado!</string>
+    <string name="pokemon_fround_text">Alguns pokemons que você quer estão nas proximidades!</string>
+    <string name="account">Minha Conta</string>
+    <string name="logout">Sair</string>
+    <string name="notifications">Notificações</string>
 </resources>

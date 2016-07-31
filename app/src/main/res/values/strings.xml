@@ -10,4 +10,9 @@
     <string name="login_loading">Loading&#8230;</string>
     <string name="login_failed_try_again">Login failed, try again.</string>
     <string name="cancel">Cancel</string>
+    <string name="pokemon_found">Pokemon Found!</string>
+    <string name="pokemon_fround_text">Some pokemons you want are nearby!</string>
+    <string name="account">Account</string>
+    <string name="logout">Logout</string>
+    <string name="notifications">Notifications</string>
 </resources>

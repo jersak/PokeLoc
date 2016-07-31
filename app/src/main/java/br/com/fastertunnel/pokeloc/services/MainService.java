@@ -2,6 +2,8 @@ package br.com.fastertunnel.pokeloc.services;
 
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -14,17 +16,20 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.pokegoapi.api.PokemonGo;
 
 import java.util.List;
 
+import br.com.fastertunnel.pokeloc.R;
 import br.com.fastertunnel.pokeloc.async.LoginTask;
 import br.com.fastertunnel.pokeloc.async.SearchNearbyPokemonTask;
 import br.com.fastertunnel.pokeloc.manager.PokeManager;
 import br.com.fastertunnel.pokeloc.models.LoginData;
 import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.pokeloc.ui.MapsActivity;
 import br.com.fastertunnel.pokeloc.utils.Constants;
 import br.com.fastertunnel.pokeloc.utils.DataManager;
 
@@ -139,5 +144,21 @@ public class MainService extends Service implements LocationListener {
                 }
             }).execute(loginData);
         }
+    }
+
+    private void showNotification() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.pokemon_found))
+                .setContentText(getString(R.string.pokemon_fround_text));
+
+        Intent resultIntent = new Intent(this, MapsActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(
+                this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(0, mBuilder.build());
     }
 }
