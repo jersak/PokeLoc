@@ -5,10 +5,10 @@
     <string name="login">Login</string>
     <string name="username">Usuário</string>
     <string name="password">Senha</string>
-    <string name="disclaimer">Não utilize sua conta principal pois existe o risco de ser banida.</string>
+    <string name="disclaimer">Recomendamos que você crie uma conta no Pokemon Trainer Club exclusiva para este aplicativo.</string>
     <string name="empty_fields">Preencha todos os campos.</string>
     <string name="login_loading">Carregando&#8230;</string>
-    <string name="login_failed_try_again">Falhs de login, tente novamente.</string>
+    <string name="login_failed_try_again">Falha de login, tente novamente.</string>
     <string name="cancel">Cancelar</string>
     <string name="pokemon_found">Pokemon encontrado!</string>
     <string name="pokemon_fround_text">Alguns pokemons que você quer estão nas proximidades!</string>

@@ -5,7 +5,7 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="disclaimer">Não utilize sua conta principal pois existe o risco de ser banida.</string>
+    <string name="disclaimer">We recommmend that you create a dummy account at Pokemon Trainer Club to use in this app.</string>
     <string name="empty_fields">Missing information</string>
     <string name="login_loading">Loading&#8230;</string>
     <string name="login_failed_try_again">Login failed, try again.</string>
