@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -95,7 +96,7 @@ public class MainService extends Service implements LocationListener {
                         executeSearch();
 
                     }
-                }).execute();
+                }).execute(location);
             }
         }, 5000);
     }
@@ -160,7 +161,8 @@ public class MainService extends Service implements LocationListener {
 
     private void showNotification() {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(getString(R.string.pokemon_found))
                 .setContentText(getString(R.string.pokemon_fround_text));
 
@@ -170,7 +172,7 @@ public class MainService extends Service implements LocationListener {
 
         mBuilder.setContentIntent(resultPendingIntent);
 
-        mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        mBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         mBuilder.setLights(Color.RED, 3000, 3000);
 
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
