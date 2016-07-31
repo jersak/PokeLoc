@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -87,9 +88,9 @@ public class MainService extends Service implements LocationListener {
                 new SearchNearbyPokemonTask(new SearchNearbyPokemonTask.SearchNearbyCallback() {
                     @Override
                     public void onSearchCompleted(List<PokemonBean> pokemons) {
-
                         DataManager.storePokemon(getApplicationContext(), pokemons);
                         sendBroadcast(new Intent(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));
+                        checkWantedPokemon(pokemons);
 
                         executeSearch();
 
@@ -112,17 +113,14 @@ public class MainService extends Service implements LocationListener {
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
-
     }
 
     @Override
     public void onProviderEnabled(String s) {
-
     }
 
     @Override
     public void onProviderDisabled(String s) {
-
     }
 
     private void loginUser() {
@@ -146,6 +144,20 @@ public class MainService extends Service implements LocationListener {
         }
     }
 
+    private void checkWantedPokemon(List<PokemonBean> nearbyPokemons) {
+        List<String> wantedPokemonIds = DataManager.retrieveWantedPokemons(getApplicationContext());
+
+        if (wantedPokemonIds == null || nearbyPokemons == null)
+            return;
+
+        for (PokemonBean pokemon : nearbyPokemons) {
+            if (wantedPokemonIds.contains(pokemon.getId())) {
+                showNotification();
+                break;
+            }
+        }
+    }
+
     private void showNotification() {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -157,6 +169,9 @@ public class MainService extends Service implements LocationListener {
                 this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         mBuilder.setContentIntent(resultPendingIntent);
+
+        mBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        mBuilder.setLights(Color.RED, 3000, 3000);
 
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotifyMgr.notify(0, mBuilder.build());

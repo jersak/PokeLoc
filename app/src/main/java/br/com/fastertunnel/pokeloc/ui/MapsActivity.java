@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -60,6 +62,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mLoginButton = findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(onLoginButtonClicked);
+
+        ImageView settingsIcon = (ImageView) findViewById(R.id.settings_icon);
+        settingsIcon.setColorFilter(Color.WHITE);
 
         findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
             @Override

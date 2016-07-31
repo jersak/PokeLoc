@@ -1,27 +1,40 @@
 package br.com.fastertunnel.pokeloc.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.pokegoapi.api.PokemonGo;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import br.com.fastertunnel.pokeloc.R;
 import br.com.fastertunnel.pokeloc.adapter.NotificationsAdapter;
 import br.com.fastertunnel.pokeloc.manager.PokeManager;
 import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.pokeloc.ui.custom.LoginDialog;
 import br.com.fastertunnel.pokeloc.utils.DataManager;
 
 /**
  * Created by cassioisquierdo on 7/31/16
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     ListView mPokemonsListView;
     NotificationsAdapter mAdapter;
+    TextView mLogoutButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,10 +42,26 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         mPokemonsListView = (ListView) findViewById(R.id.notification_list_view);
+        mPokemonsListView.setOnItemClickListener(this);
         mAdapter = new NotificationsAdapter(this, 0, getPokemonsList());
         mPokemonsListView.setAdapter(mAdapter);
 
-        findViewById(R.id.logout_button).setOnClickListener(onLogoutClicked);
+        mLogoutButton = (TextView) findViewById(R.id.logout_button);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        updateView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else return super.onOptionsItemSelected(item);
     }
 
     View.OnClickListener onLogoutClicked = new View.OnClickListener() {
@@ -41,8 +70,43 @@ public class SettingsActivity extends AppCompatActivity {
             DataManager.storeUsernameString(SettingsActivity.this, "");
             DataManager.storePasswordString(SettingsActivity.this, "");
             PokeManager.getInstance().setPokemonGo(null);
+            finish();
         }
     };
+
+    View.OnClickListener onLoginClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            LoginDialog loginDialog = new LoginDialog(SettingsActivity.this);
+            loginDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    updateView();
+                }
+            });
+            loginDialog.show();
+        }
+    };
+
+    private void updateView() {
+        if (isLoggedIn()) {
+            mLogoutButton.setOnClickListener(onLogoutClicked);
+            mLogoutButton.setText(getString(R.string.logout));
+            mPokemonsListView.setVisibility(View.VISIBLE);
+        } else {
+            mLogoutButton.setOnClickListener(onLoginClicked);
+            mLogoutButton.setText(getString(R.string.login));
+            mPokemonsListView.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean isLoggedIn() {
+        PokemonGo go = PokeManager.getInstance().getPokemonGo();
+        String username = DataManager.retrieveUsername(this);
+        String password = DataManager.retrievePassword(this);
+
+        return !(go == null && username.isEmpty() && password.isEmpty());
+    }
 
     private List<PokemonBean> getPokemonsList() {
         List<PokemonBean> pokemons = new ArrayList<>();
@@ -199,6 +263,24 @@ public class SettingsActivity extends AppCompatActivity {
         pokemons.add(new PokemonBean("MEWTWO", "Mewtwo"));
         pokemons.add(new PokemonBean("MEW", "Mew"));
 
+        Collections.sort(pokemons, new CustomComparator());
+
         return pokemons;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        PokemonBean pokemonBean = mAdapter.getItem(position);
+        pokemonBean.setWanted(!pokemonBean.isWanted());
+        Log.e(SettingsActivity.class.getSimpleName(), pokemonBean.getName() + ": " + String.valueOf(pokemonBean.isWanted()));
+        mAdapter.saveSelectedPokemons();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public class CustomComparator implements Comparator<PokemonBean> {
+        @Override
+        public int compare(PokemonBean p1, PokemonBean p2) {
+            return p1.getName().compareTo(p2.getName());
+        }
     }
 }

@@ -26,6 +26,8 @@ public class PokemonBean {
     @SerializedName("name")
     private String name;
 
+    private boolean isWanted = false;
+
     public PokemonBean(String id, Long time, double latitude, double longitude) {
         this.id = id;
         this.time = time;
@@ -76,5 +78,13 @@ public class PokemonBean {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isWanted() {
+        return isWanted;
+    }
+
+    public void setWanted(boolean wanted) {
+        isWanted = wanted;
     }
 }
