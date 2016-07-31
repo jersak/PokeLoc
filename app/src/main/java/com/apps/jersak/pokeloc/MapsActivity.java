@@ -1,10 +1,16 @@
 package com.apps.jersak.pokeloc;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +41,8 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LoginTask.LoginCallback {
 
+    private int GPS_PERMISSION_RC = 12;
+
     private GoogleMap mMap;
 
     private List<Marker> mPokemonMarkers;
@@ -49,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         mPokemonMarkers = new ArrayList<>();
 
-        registerReceiver(onNearbyUpdatedReceiver,new IntentFilter(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));
+        registerReceiver(onNearbyUpdatedReceiver, new IntentFilter(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));
     }
 
     @Override
@@ -62,21 +70,60 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        new LoginTask(this).execute(new LoginData("jersak", "50825x"));
-
-        LatLng location = new LatLng(34.008887136904356,-118.4983366727829);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 18));
+        mMap.setMyLocationEnabled(true);
 
         populateMap();
+
+        new LoginTask(this).execute(new LoginData("jersak", "50825x"));
+
+        checkGpsPermission();
+
+    }
+
+    private boolean hasGpsPermission() {
+        return (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void checkGpsPermission() {
+        if (!hasGpsPermission()) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, GPS_PERMISSION_RC);
+        } else {
+            startService(new Intent(this, MainService.class));
+            moveToUserLocation();
+        }
+    }
+
+    private void moveToUserLocation() {
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if (hasGpsPermission()) {
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (mMap != null && location != null) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 18));
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == GPS_PERMISSION_RC) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startService(new Intent(this, MainService.class));
+                moveToUserLocation();
+            } else {
+                Toast.makeText(this, R.string.gps_permission_denied, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void populateMap() {
 
         List<PokemonBean> pokemons = DataManager.retrievePokemon(this);
 
-        if (pokemons == null || mMap == null){
-            Log.e(MapsActivity.class.getSimpleName(),"Pokemons or map null");
+        if (pokemons == null || mMap == null) {
+            Log.e(MapsActivity.class.getSimpleName(), "Pokemons or map null");
             return;
         }
 
@@ -103,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.e(MapsActivity.class.getSimpleName(),"onReceive()");
+            Log.e(MapsActivity.class.getSimpleName(), "onReceive()");
 
             populateMap();
         }
@@ -112,7 +159,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLoginSuccess() {
         Intent intent = new Intent(this, MainService.class);
-        intent.setAction(Constants.START_SEARCH_POKEMON);
         startService(intent);
     }
 

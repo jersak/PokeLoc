@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PokeLoc</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="gps_permission_denied">Você deve autorizar o uso do GPS para que esse app funcione corretamente.</string>
+</resources>

@@ -1,10 +1,12 @@
 package com.apps.jersak.pokeloc.async;
 
+import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.apps.jersak.pokeloc.manager.PokeManager;
 import com.apps.jersak.pokeloc.models.PokemonBean;
+import com.google.android.gms.maps.model.LatLng;
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.Map;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;
@@ -15,7 +17,7 @@ import java.util.List;
 /**
  * Created by Fuzi on 27/07/2016.
  */
-public class SearchNearbyPokemonTask extends AsyncTask<Void, Void, List<PokemonBean>> {
+public class SearchNearbyPokemonTask extends AsyncTask<Location, Void, List<PokemonBean>> {
 
     public interface SearchNearbyCallback {
         void onSearchCompleted(List<PokemonBean> pokemons);
@@ -29,12 +31,18 @@ public class SearchNearbyPokemonTask extends AsyncTask<Void, Void, List<PokemonB
 
 
     @Override
-    protected List<PokemonBean> doInBackground(Void... voids) {
+    protected List<PokemonBean> doInBackground(Location... locations) {
+
+        if (locations == null || locations.length == 0 || locations[0] == null){
+            return null;
+        }
+
+        Location location = locations[0];
 
         try {
             PokemonGo go = PokeManager.getInstance().getPokemonGo();
 
-            go.setLocation(34.008887136904356, -118.4983366727829, 0);
+            go.setLocation(location.getLatitude(), location.getLongitude(), 0);
 
             Map map = new Map(go);
 
