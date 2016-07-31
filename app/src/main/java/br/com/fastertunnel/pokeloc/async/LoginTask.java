@@ -5,13 +5,14 @@ import android.os.StrictMode;
 
 import br.com.fastertunnel.pokeloc.manager.PokeManager;
 import br.com.fastertunnel.pokeloc.models.LoginData;
+
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.auth.PtcCredentialProvider;
 
 import okhttp3.OkHttpClient;
 
 /**
- * Created by Fuzi on 26/07/2016.
+ * Created by Fuzi on 26/07/2016
  */
 public class LoginTask extends AsyncTask<LoginData, Void, PokemonGo> {
 
@@ -29,11 +30,13 @@ public class LoginTask extends AsyncTask<LoginData, Void, PokemonGo> {
 
     @Override
     protected PokemonGo doInBackground(LoginData... loginDatas) {
+        if (loginDatas == null || loginDatas.length == 0 || loginDatas[0] == null) {
+            return null;
+        }
 
         LoginData loginData = loginDatas[0];
 
         try {
-
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 

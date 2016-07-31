@@ -16,17 +16,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-import br.com.fastertunnel.pokeloc.async.SearchNearbyPokemonTask;
-import br.com.fastertunnel.pokeloc.manager.PokeManager;
-import br.com.fastertunnel.pokeloc.models.PokemonBean;
-import br.com.fastertunnel.pokeloc.utils.Constants;
-import br.com.fastertunnel.pokeloc.utils.DataManager;
 import com.pokegoapi.api.PokemonGo;
 
 import java.util.List;
 
+import br.com.fastertunnel.pokeloc.async.LoginTask;
+import br.com.fastertunnel.pokeloc.async.SearchNearbyPokemonTask;
+import br.com.fastertunnel.pokeloc.manager.PokeManager;
+import br.com.fastertunnel.pokeloc.models.LoginData;
+import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.pokeloc.utils.Constants;
+import br.com.fastertunnel.pokeloc.utils.DataManager;
+
 /**
- * Created by Fuzi on 28/07/2016.
+ * Created by Fuzi on 28/07/2016
  */
 public class MainService extends Service implements LocationListener {
 
@@ -44,6 +47,7 @@ public class MainService extends Service implements LocationListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         configGpsListener();
+        loginUser();
         return START_STICKY;
     }
 
@@ -55,11 +59,7 @@ public class MainService extends Service implements LocationListener {
         locManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, GPS_UPDATE_INTERVAL, GPS_UPDATE_MIN_DISTANCE, this);
     }
 
-
     private void executeSearch() {
-
-        Log.e(MainService.class.getSimpleName(), "executeSearch()");
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -68,11 +68,13 @@ public class MainService extends Service implements LocationListener {
                 PokemonGo go = PokeManager.getInstance().getPokemonGo();
 
                 if (go == null) {
+                    Log.e(MainService.class.getSimpleName(), "User not logged in.");
+                    loginUser();
                     executeSearch();
                     return;
                 }
 
-                if (location == null){
+                if (location == null) {
                     executeSearch();
                     return;
                 }
@@ -116,5 +118,26 @@ public class MainService extends Service implements LocationListener {
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    private void loginUser() {
+        String username = DataManager.retrieveUsername(getApplicationContext());
+        String password = DataManager.retrievePassword(getApplicationContext());
+
+        if (!username.isEmpty() && !password.isEmpty()) {
+            LoginData loginData = new LoginData(username, password);
+
+            new LoginTask(new LoginTask.LoginCallback() {
+                @Override
+                public void onLoginSuccess() {
+                    sendBroadcast(new Intent(Constants.ON_SERVICE_LOGIN_RESULT));
+                }
+
+                @Override
+                public void onLoginFailed() {
+                    sendBroadcast(new Intent(Constants.ON_SERVICE_LOGIN_RESULT));
+                }
+            }).execute(loginData);
+        }
     }
 }

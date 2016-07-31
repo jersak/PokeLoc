@@ -2,4 +2,12 @@
     <string name="app_name">PokeLoc</string>
     <string name="title_activity_maps">Map</string>
     <string name="gps_permission_denied">You need to allow GPS usage for this app to work correctly.</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="disclaimer">Não utilize sua conta principal pois existe o risco de ser banida.</string>
+    <string name="empty_fields">Missing information</string>
+    <string name="login_loading">Loading&#8230;</string>
+    <string name="login_failed_try_again">Login failed, try again.</string>
+    <string name="cancel">Cancel</string>
 </resources>

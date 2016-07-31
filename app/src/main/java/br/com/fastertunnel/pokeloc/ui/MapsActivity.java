@@ -1,28 +1,25 @@
-package br.com.fastertunnel.pokeloc;
+package br.com.fastertunnel.pokeloc.ui;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
-import br.com.fastertunnel.pokeloc.R;
-
-import br.com.fastertunnel.pokeloc.async.LoginTask;
-import br.com.fastertunnel.pokeloc.models.LoginData;
-import br.com.fastertunnel.pokeloc.models.PokemonBean;
-import br.com.fastertunnel.pokeloc.services.MainService;
-import br.com.fastertunnel.pokeloc.utils.Constants;
-import br.com.fastertunnel.pokeloc.utils.DataManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,15 +27,25 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pokegoapi.api.PokemonGo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LoginTask.LoginCallback {
+import br.com.fastertunnel.pokeloc.R;
+import br.com.fastertunnel.pokeloc.manager.PokeManager;
+import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.pokeloc.services.MainService;
+import br.com.fastertunnel.pokeloc.ui.custom.LoginDialog;
+import br.com.fastertunnel.pokeloc.utils.Constants;
+import br.com.fastertunnel.pokeloc.utils.DataManager;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private int GPS_PERMISSION_RC = 12;
 
     private GoogleMap mMap;
+    private View mLoginButton;
 
     private List<Marker> mPokemonMarkers;
 
@@ -50,30 +57,85 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mLoginButton = findViewById(R.id.login_button);
+        mLoginButton.setOnClickListener(onLoginButtonClicked);
+
         mPokemonMarkers = new ArrayList<>();
 
         registerReceiver(onNearbyUpdatedReceiver, new IntentFilter(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));
+        registerReceiver(onServiceLoginResultReceiver, new IntentFilter(Constants.ON_SERVICE_LOGIN_RESULT));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkLoginStatus();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(onNearbyUpdatedReceiver);
+        unregisterReceiver(onServiceLoginResultReceiver);
     }
+
+    private void checkLoginStatus() {
+        PokemonGo go = PokeManager.getInstance().getPokemonGo();
+        String username = DataManager.retrieveUsername(this);
+        String password = DataManager.retrievePassword(this);
+        if (go == null && username.isEmpty() && password.isEmpty()) {
+            ObjectAnimator animator = ObjectAnimator.ofFloat(mLoginButton, View.ALPHA, 0f, 1f);
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    mLoginButton.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+                }
+            });
+            animator.setDuration(1000);
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+        } else {
+            mLoginButton.setVisibility(View.GONE);
+        }
+    }
+
+    View.OnClickListener onLoginButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            LoginDialog loginDialog = new LoginDialog(MapsActivity.this);
+            loginDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    checkLoginStatus();
+                }
+            });
+            loginDialog.show();
+        }
+    };
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.setMyLocationEnabled(true);
 
         populateMap();
 
-        new LoginTask(this).execute(new LoginData("fastertunnel", "50825x"));
-
         checkGpsPermission();
-
     }
+//        new LoginTask(this).execute(new LoginData("fastertunnel", "50825x"));
 
     private boolean hasGpsPermission() {
         return (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
@@ -114,7 +176,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void populateMap() {
-
         List<PokemonBean> pokemons = DataManager.retrievePokemon(this);
 
         if (pokemons == null || mMap == null) {
@@ -128,9 +189,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (PokemonBean pokemon : pokemons) {
             LatLng currentPokemon = new LatLng(pokemon.getLatitude(), pokemon.getLongitude());
-            String name = pokemon.getId();
             String time = ((pokemon.getTime() - System.currentTimeMillis()) / 1000) + "s";
-            String title = String.format("%s\n%s", name, time);
+
             MarkerOptions options = new MarkerOptions()
                     .position(currentPokemon)
                     .title(time)
@@ -144,21 +204,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     BroadcastReceiver onNearbyUpdatedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            Log.e(MapsActivity.class.getSimpleName(), "onReceive()");
-
             populateMap();
         }
     };
 
-    @Override
-    public void onLoginSuccess() {
-        Intent intent = new Intent(this, MainService.class);
-        startService(intent);
-    }
-
-    @Override
-    public void onLoginFailed() {
-        Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
-    }
+    BroadcastReceiver onServiceLoginResultReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            checkLoginStatus();
+        }
+    };
 }
