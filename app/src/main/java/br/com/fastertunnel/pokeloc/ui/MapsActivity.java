@@ -196,12 +196,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         for (Marker m : mPokemonMarkers) {
+            Log.e(MapsActivity.class.getSimpleName(),"Limpando Marcador "+m.getId());
             m.remove();
         }
+
+        mPokemonMarkers.clear();
 
         for (PokemonBean pokemon : pokemons) {
             LatLng currentPokemon = new LatLng(pokemon.getLatitude(), pokemon.getLongitude());
             String time = ((pokemon.getTime() - System.currentTimeMillis()) / 1000) + "s";
+
+            Log.e(MapsActivity.class.getSimpleName(),"Time Check for "+pokemon.getId()+": "+pokemon.getTime()/1000+"-"+System.currentTimeMillis()/1000);
 
             MarkerOptions options = new MarkerOptions()
                     .position(currentPokemon)

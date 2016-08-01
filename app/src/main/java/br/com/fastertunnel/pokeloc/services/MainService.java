@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.pokegoapi.api.PokemonGo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.fastertunnel.pokeloc.R;
@@ -44,6 +45,8 @@ public class MainService extends Service implements LocationListener {
     private static final float GPS_UPDATE_MIN_DISTANCE = 25;
 
     private Location location;
+
+    List<Long> encounterIds = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -151,8 +154,13 @@ public class MainService extends Service implements LocationListener {
         if (wantedPokemonIds == null || nearbyPokemons == null)
             return;
 
+        if (encounterIds.size() > 250){
+            encounterIds.clear();
+        }
+
         for (PokemonBean pokemon : nearbyPokemons) {
-            if (wantedPokemonIds.contains(pokemon.getId())) {
+            if (wantedPokemonIds.contains(pokemon.getId()) && !encounterIds.contains(pokemon.getEncounterId()) ) {
+                encounterIds.add(pokemon.getEncounterId());
                 showNotification();
                 break;
             }

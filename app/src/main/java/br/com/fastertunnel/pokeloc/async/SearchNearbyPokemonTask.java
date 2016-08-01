@@ -49,7 +49,7 @@ public class SearchNearbyPokemonTask extends AsyncTask<Location, Void, List<Poke
             List<PokemonBean> pokemonBeanList = new ArrayList<>();
 
             for (CatchablePokemon temp : nearbyPokemon) {
-                PokemonBean pokemonBean = new PokemonBean(temp.getPokemonId().name(), temp.getExpirationTimestampMs(), temp.getLatitude(), temp.getLongitude());
+                PokemonBean pokemonBean = new PokemonBean(temp.getPokemonId().name(), temp.getExpirationTimestampMs(), temp.getLatitude(), temp.getLongitude(),temp.getEncounterId());
                 pokemonBeanList.add(pokemonBean);
             }
 
