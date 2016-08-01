@@ -6,6 +6,7 @@ import android.util.Log;
 
 import br.com.fastertunnel.pokeloc.manager.PokeManager;
 import br.com.fastertunnel.pokeloc.models.PokemonBean;
+
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.Map;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;
@@ -32,7 +33,7 @@ public class SearchNearbyPokemonTask extends AsyncTask<Location, Void, List<Poke
     @Override
     protected List<PokemonBean> doInBackground(Location... locations) {
 
-        if (locations == null || locations.length == 0 || locations[0] == null){
+        if (locations == null || locations.length == 0 || locations[0] == null) {
             return null;
         }
 
@@ -40,22 +41,24 @@ public class SearchNearbyPokemonTask extends AsyncTask<Location, Void, List<Poke
 
         try {
             PokemonGo go = PokeManager.getInstance().getPokemonGo();
-
             go.setLocation(location.getLatitude(), location.getLongitude(), 0);
-
             Map map = new Map(go);
 
             List<CatchablePokemon> nearbyPokemon = map.getCatchablePokemon();
 
-            if (nearbyPokemon == null){
-                Log.e(SearchNearbyPokemonTask.class.getSimpleName(),"nearbyPokemon list is null");
+            if (nearbyPokemon == null) {
+                Log.e(SearchNearbyPokemonTask.class.getSimpleName(), "nearbyPokemon list is null");
                 return null;
+            }
+
+            if (nearbyPokemon.isEmpty()) {
+                Log.e(SearchNearbyPokemonTask.class.getSimpleName(), "nearbyPokemon list is empty");
             }
 
             List<PokemonBean> pokemonBeanList = new ArrayList<>();
 
             for (CatchablePokemon temp : nearbyPokemon) {
-                PokemonBean pokemonBean = new PokemonBean(temp.getPokemonId().name(), temp.getExpirationTimestampMs(), temp.getLatitude(), temp.getLongitude(),temp.getEncounterId());
+                PokemonBean pokemonBean = new PokemonBean(temp.getPokemonId().name(), temp.getExpirationTimestampMs(), temp.getLatitude(), temp.getLongitude(), temp.getEncounterId());
                 pokemonBeanList.add(pokemonBean);
             }
 
@@ -63,7 +66,6 @@ public class SearchNearbyPokemonTask extends AsyncTask<Location, Void, List<Poke
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         return null;
     }

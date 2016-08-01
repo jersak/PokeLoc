@@ -183,7 +183,7 @@ public class MainService extends Service implements LocationListener {
 
         mBuilder.setContentIntent(resultPendingIntent);
 
-        mBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        mBuilder.setVibrate(new long[]{1000, 1000});
         mBuilder.setLights(Color.RED, 3000, 3000);
 
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

@@ -196,9 +196,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         for (Marker m : mPokemonMarkers) {
-            Log.e(MapsActivity.class.getSimpleName(),"Limpando Marcador "+m.getId());
             m.remove();
         }
+        Log.e(MapsActivity.class.getSimpleName(), "Markers removed");
 
         mPokemonMarkers.clear();
 
@@ -206,7 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng currentPokemon = new LatLng(pokemon.getLatitude(), pokemon.getLongitude());
             String time = ((pokemon.getTime() - System.currentTimeMillis()) / 1000) + "s";
 
-            Log.e(MapsActivity.class.getSimpleName(),"Time Check for "+pokemon.getId()+": "+pokemon.getTime()/1000+"-"+System.currentTimeMillis()/1000);
+            Log.e(MapsActivity.class.getSimpleName(), "Time Check for " + pokemon.getId() + ": " + pokemon.getTime() / 1000 + "-" + System.currentTimeMillis() / 1000);
 
             MarkerOptions options = new MarkerOptions()
                     .position(currentPokemon)
