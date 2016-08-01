@@ -15,4 +15,7 @@
     <string name="account">Account</string>
     <string name="logout">Logout</string>
     <string name="notifications">Notifications</string>
+    <string name="notify">Notify</string>
+    <string name="all">All</string>
+    <string name="none">None</string>
 </resources>

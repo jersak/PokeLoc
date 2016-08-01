@@ -72,6 +72,16 @@ public class NotificationsAdapter extends ArrayAdapter<PokemonBean> {
         notifyDataSetChanged();
     }
 
+    public void selectAllPokemon(boolean selected){
+        for (int i = 0; i < getCount(); i++) {
+            PokemonBean pokemonBean = getItem(i);
+            pokemonBean.setWanted(selected);
+        }
+
+        saveSelectedPokemons();
+        loadSelectedPokemons();
+    }
+
     static class NotificationsViewHolder {
 
         ImageView icon;

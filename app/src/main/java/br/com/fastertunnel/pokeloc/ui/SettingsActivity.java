@@ -35,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     ListView mPokemonsListView;
     NotificationsAdapter mAdapter;
     TextView mLogoutButton;
+    TextView mSelectPokemonButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +48,9 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         mPokemonsListView.setAdapter(mAdapter);
 
         mLogoutButton = (TextView) findViewById(R.id.logout_button);
+        mSelectPokemonButton = (TextView) findViewById(R.id.select_button);
+
+        mSelectPokemonButton.setOnClickListener(onSelectClicked);
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
@@ -88,15 +92,33 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         }
     };
 
+    View.OnClickListener onSelectClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String currentText = mSelectPokemonButton.getText().toString();
+
+            if (currentText.equals(getString(R.string.all))){
+                mAdapter.selectAllPokemon(true);
+                mSelectPokemonButton.setText(getString(R.string.none));
+            } else {
+                mAdapter.selectAllPokemon(false);
+                mSelectPokemonButton.setText(getString(R.string.all));
+            }
+        }
+    };
+
     private void updateView() {
         if (isLoggedIn()) {
             mLogoutButton.setOnClickListener(onLogoutClicked);
             mLogoutButton.setText(getString(R.string.logout));
             mPokemonsListView.setVisibility(View.VISIBLE);
+            findViewById(R.id.select_notify_container).setVisibility(View.VISIBLE);
+            mSelectPokemonButton.setText(getString(R.string.all));
         } else {
             mLogoutButton.setOnClickListener(onLoginClicked);
             mLogoutButton.setText(getString(R.string.login));
             mPokemonsListView.setVisibility(View.GONE);
+            findViewById(R.id.select_notify_container).setVisibility(View.GONE);
         }
     }
 

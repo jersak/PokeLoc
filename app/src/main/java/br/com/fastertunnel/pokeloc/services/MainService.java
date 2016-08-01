@@ -92,9 +92,12 @@ public class MainService extends Service implements LocationListener {
                 new SearchNearbyPokemonTask(new SearchNearbyPokemonTask.SearchNearbyCallback() {
                     @Override
                     public void onSearchCompleted(List<PokemonBean> pokemons) {
-                        DataManager.storePokemon(getApplicationContext(), pokemons);
-                        sendBroadcast(new Intent(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));
-                        checkWantedPokemon(pokemons);
+
+                        if (pokemons != null){
+                            DataManager.storePokemon(getApplicationContext(), pokemons);
+                            sendBroadcast(new Intent(Constants.ON_NEARBY_POKEMON_LIST_UPDATED));
+                            checkWantedPokemon(pokemons);
+                        }
 
                         executeSearch();
 

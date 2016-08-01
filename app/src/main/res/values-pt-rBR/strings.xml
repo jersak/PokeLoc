@@ -15,4 +15,7 @@
     <string name="account">Minha Conta</string>
     <string name="logout">Sair</string>
     <string name="notifications">Notificações</string>
+    <string name="notify">Notificar</string>
+    <string name="all">Todos</string>
+    <string name="none">Nenhum</string>
 </resources>

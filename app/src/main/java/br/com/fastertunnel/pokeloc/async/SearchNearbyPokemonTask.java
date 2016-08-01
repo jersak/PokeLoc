@@ -2,6 +2,7 @@ package br.com.fastertunnel.pokeloc.async;
 
 import android.location.Location;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import br.com.fastertunnel.pokeloc.manager.PokeManager;
 import br.com.fastertunnel.pokeloc.models.PokemonBean;
@@ -45,6 +46,11 @@ public class SearchNearbyPokemonTask extends AsyncTask<Location, Void, List<Poke
             Map map = new Map(go);
 
             List<CatchablePokemon> nearbyPokemon = map.getCatchablePokemon();
+
+            if (nearbyPokemon == null){
+                Log.e(SearchNearbyPokemonTask.class.getSimpleName(),"nearbyPokemon list is null");
+                return null;
+            }
 
             List<PokemonBean> pokemonBeanList = new ArrayList<>();
 
