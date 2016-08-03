@@ -1,4 +1,4 @@
-package br.com.fastertunnel.pokeloc.ui;
+package br.com.fastertunnel.radarpokemon.ui;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -34,13 +34,13 @@ import com.pokegoapi.api.PokemonGo;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.fastertunnel.pokeloc.R;
-import br.com.fastertunnel.pokeloc.manager.PokeManager;
-import br.com.fastertunnel.pokeloc.models.PokemonBean;
-import br.com.fastertunnel.pokeloc.services.MainService;
-import br.com.fastertunnel.pokeloc.ui.custom.LoginDialog;
-import br.com.fastertunnel.pokeloc.utils.Constants;
-import br.com.fastertunnel.pokeloc.utils.DataManager;
+import br.com.fastertunnel.radarpokemon.R;
+import br.com.fastertunnel.radarpokemon.manager.PokeManager;
+import br.com.fastertunnel.radarpokemon.models.PokemonBean;
+import br.com.fastertunnel.radarpokemon.services.MainService;
+import br.com.fastertunnel.radarpokemon.ui.custom.LoginDialog;
+import br.com.fastertunnel.radarpokemon.utils.Constants;
+import br.com.fastertunnel.radarpokemon.utils.DataManager;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

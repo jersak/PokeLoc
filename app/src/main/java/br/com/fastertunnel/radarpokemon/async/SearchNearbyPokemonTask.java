@@ -1,11 +1,11 @@
-package br.com.fastertunnel.pokeloc.async;
+package br.com.fastertunnel.radarpokemon.async;
 
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import br.com.fastertunnel.pokeloc.manager.PokeManager;
-import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.radarpokemon.manager.PokeManager;
+import br.com.fastertunnel.radarpokemon.models.PokemonBean;
 
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.Map;

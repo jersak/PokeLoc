@@ -1,4 +1,4 @@
-package br.com.fastertunnel.pokeloc;
+package br.com.fastertunnel.radarpokemon;
 
 import android.app.Application;
 import android.support.multidex.MultiDex;

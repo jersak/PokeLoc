@@ -1,9 +1,9 @@
-package br.com.fastertunnel.pokeloc.utils;
+package br.com.fastertunnel.radarpokemon.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import br.com.fastertunnel.pokeloc.models.PokemonBean;
+import br.com.fastertunnel.radarpokemon.models.PokemonBean;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

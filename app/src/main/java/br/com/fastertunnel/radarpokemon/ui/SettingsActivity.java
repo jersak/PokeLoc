@@ -1,4 +1,4 @@
-package br.com.fastertunnel.pokeloc.ui;
+package br.com.fastertunnel.radarpokemon.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,17 +15,16 @@ import android.widget.TextView;
 import com.pokegoapi.api.PokemonGo;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import br.com.fastertunnel.pokeloc.R;
-import br.com.fastertunnel.pokeloc.adapter.NotificationsAdapter;
-import br.com.fastertunnel.pokeloc.manager.PokeManager;
-import br.com.fastertunnel.pokeloc.models.PokemonBean;
-import br.com.fastertunnel.pokeloc.ui.custom.LoginDialog;
-import br.com.fastertunnel.pokeloc.utils.DataManager;
+import br.com.fastertunnel.radarpokemon.R;
+import br.com.fastertunnel.radarpokemon.adapter.NotificationsAdapter;
+import br.com.fastertunnel.radarpokemon.manager.PokeManager;
+import br.com.fastertunnel.radarpokemon.models.PokemonBean;
+import br.com.fastertunnel.radarpokemon.ui.custom.LoginDialog;
+import br.com.fastertunnel.radarpokemon.utils.DataManager;
 
 /**
  * Created by cassioisquierdo on 7/31/16

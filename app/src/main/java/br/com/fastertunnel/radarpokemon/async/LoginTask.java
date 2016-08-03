@@ -1,10 +1,10 @@
-package br.com.fastertunnel.pokeloc.async;
+package br.com.fastertunnel.radarpokemon.async;
 
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
-import br.com.fastertunnel.pokeloc.manager.PokeManager;
-import br.com.fastertunnel.pokeloc.models.LoginData;
+import br.com.fastertunnel.radarpokemon.manager.PokeManager;
+import br.com.fastertunnel.radarpokemon.models.LoginData;
 
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.auth.PtcCredentialProvider;

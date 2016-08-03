@@ -1,6 +1,6 @@
-package br.com.fastertunnel.pokeloc.utils;
+package br.com.fastertunnel.radarpokemon.utils;
 
-import br.com.fastertunnel.pokeloc.R;
+import br.com.fastertunnel.radarpokemon.R;
 
 /**
  * Created by Fuzi on 27/07/2016.

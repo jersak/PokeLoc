@@ -1,4 +1,4 @@
-package br.com.fastertunnel.pokeloc.services;
+package br.com.fastertunnel.radarpokemon.services;
 
 
 import android.Manifest;
@@ -26,15 +26,15 @@ import com.pokegoapi.api.PokemonGo;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.fastertunnel.pokeloc.R;
-import br.com.fastertunnel.pokeloc.async.LoginTask;
-import br.com.fastertunnel.pokeloc.async.SearchNearbyPokemonTask;
-import br.com.fastertunnel.pokeloc.manager.PokeManager;
-import br.com.fastertunnel.pokeloc.models.LoginData;
-import br.com.fastertunnel.pokeloc.models.PokemonBean;
-import br.com.fastertunnel.pokeloc.ui.MapsActivity;
-import br.com.fastertunnel.pokeloc.utils.Constants;
-import br.com.fastertunnel.pokeloc.utils.DataManager;
+import br.com.fastertunnel.radarpokemon.R;
+import br.com.fastertunnel.radarpokemon.async.LoginTask;
+import br.com.fastertunnel.radarpokemon.async.SearchNearbyPokemonTask;
+import br.com.fastertunnel.radarpokemon.manager.PokeManager;
+import br.com.fastertunnel.radarpokemon.models.LoginData;
+import br.com.fastertunnel.radarpokemon.models.PokemonBean;
+import br.com.fastertunnel.radarpokemon.ui.MapsActivity;
+import br.com.fastertunnel.radarpokemon.utils.Constants;
+import br.com.fastertunnel.radarpokemon.utils.DataManager;
 
 /**
  * Created by Fuzi on 28/07/2016

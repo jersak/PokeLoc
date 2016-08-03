@@ -1,4 +1,4 @@
-package br.com.fastertunnel.pokeloc.manager;
+package br.com.fastertunnel.radarpokemon.manager;
 
 import com.pokegoapi.api.PokemonGo;
 import com.pokegoapi.api.map.pokemon.CatchablePokemon;

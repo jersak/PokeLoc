@@ -1,4 +1,4 @@
-package br.com.fastertunnel.pokeloc.ui.custom;
+package br.com.fastertunnel.radarpokemon.ui.custom;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -10,10 +10,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import br.com.fastertunnel.pokeloc.R;
-import br.com.fastertunnel.pokeloc.async.LoginTask;
-import br.com.fastertunnel.pokeloc.models.LoginData;
-import br.com.fastertunnel.pokeloc.utils.DataManager;
+import br.com.fastertunnel.radarpokemon.R;
+import br.com.fastertunnel.radarpokemon.async.LoginTask;
+import br.com.fastertunnel.radarpokemon.models.LoginData;
+import br.com.fastertunnel.radarpokemon.utils.DataManager;
 
 /**
  * Created by cassioisquierdo on 7/31/16

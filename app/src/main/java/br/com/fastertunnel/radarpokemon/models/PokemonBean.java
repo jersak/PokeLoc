@@ -1,7 +1,6 @@
-package br.com.fastertunnel.pokeloc.models;
+package br.com.fastertunnel.radarpokemon.models;
 
-import br.com.fastertunnel.pokeloc.R;
-import br.com.fastertunnel.pokeloc.utils.ImageManager;
+import br.com.fastertunnel.radarpokemon.utils.ImageManager;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;

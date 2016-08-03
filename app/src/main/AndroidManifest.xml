@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="br.com.fastertunnel.pokeloc">
+          package="br.com.fastertunnel.radarpokemon">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name="br.com.fastertunnel.pokeloc.PokeLocApplication"
+        android:name="br.com.fastertunnel.radarpokemon.PokeLocApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -34,7 +34,7 @@
             android:value="AIzaSyBAU6m4s8MFPCnuVRWPycFAVuSUidqzmag"/>
 
         <activity
-            android:name=".ui.MapsActivity"
+            android:name="br.com.fastertunnel.radarpokemon.ui.MapsActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -44,11 +44,11 @@
         </activity>
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name="br.com.fastertunnel.radarpokemon.ui.SettingsActivity"
             android:screenOrientation="portrait"/>
 
         <service
-            android:name="br.com.fastertunnel.pokeloc.services.MainService"
+            android:name="br.com.fastertunnel.radarpokemon.services.MainService"
             android:label="PokeLoc"/>
 
     </application>
